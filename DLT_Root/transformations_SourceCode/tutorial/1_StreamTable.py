@@ -29,6 +29,13 @@ def first_view():
   df = spark.read.table('dbtstev.source.orders')  
   return df
 
+# Create Streaming View
 
+@dlt.streaming_view(
+  name='first_streaming_view'
+)
+def first_streaming_view():
+  df = spark.read.table('dbtstev.source.orders')  
+  return df
 
 
