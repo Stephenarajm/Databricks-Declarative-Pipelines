@@ -8,12 +8,8 @@
 
 # COMMAND ----------
 
-import sys
+df = spark.read.table("dbtstev.dlt_schema.staging_orders")
+df=df.filter(df.order_status != "completed")
 
-sys.path.append("/Workspace/Users/stephen.arokiaraj@alpharithm.com/Declarative Pipelines/Databricks-Declarative-Pipelines/DLT/New Pipeline 2025-11-10 12:57")
-
-# COMMAND ----------
-
-# !!! Before performing any data analysis, make sure to run the pipeline to materialize the sample datasets. The tables referenced in this notebook depend on that step.
-
-display(spark.sql("SELECT * FROM dbtstev.dlt_schema.sample_aggregation_nov_10_1257"))
+display(df)
+# df.display()

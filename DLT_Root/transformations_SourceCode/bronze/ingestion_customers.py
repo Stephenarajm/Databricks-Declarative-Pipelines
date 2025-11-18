@@ -1,0 +1,22 @@
+
+import dlt
+
+
+# Customers Expectations
+
+customer_rules = {
+    "rule1": "product_id is not null"
+    "rule2": "price >= 0"
+}
+
+
+# Ingesting customers
+@dlt.table(
+    name='stg_customers'
+)
+
+@dlt.expect_all_or_drop(customer_rules)
+
+def stg_customers():
+    df=spark.readStream.table('dbtstev.source.customers')
+    return df
