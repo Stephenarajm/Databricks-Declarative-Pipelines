@@ -5,8 +5,8 @@ import dlt
 # Customers Expectations
 
 customer_rules = {
-    "rule1": "product_id is not null"
-    "rule2": "price >= 0"
+    "rule1": "customer_id is not null",
+    "rule2": "customer_name is not null"
 }
 
 
