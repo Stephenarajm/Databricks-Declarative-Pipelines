@@ -1,9 +1,16 @@
 import dlt
-
+from pyspark.sql.functions import col
 
 #tansforming sales data
 
-@dlt.view
+@dlt.view(
+    name='stg_sales_transform'
+)
+
+def stg_sales_transform():
+    df = spark.readStream.table("stg_sales")
+    df = df.withColumn("total_amount",col("quantity") * col("amount"))  
+    return df
 
 
 # Create destination silver table
@@ -14,7 +21,7 @@ dlt.create_streaming_table(
 
 dlt.create_auto_cdc_flow(
     target = "sales_enrich",
-    source = "stg_sales",
+    source = "stg_sales_transform",
     keys = ["sales_id"],
     sequence_by = "sale_timestamp",
     # ignore_null_updates = <bool>,
