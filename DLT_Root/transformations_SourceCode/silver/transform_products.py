@@ -1,29 +1,28 @@
 import dlt
 from pyspark.sql.functions import col
+from pyspark.sql.types import *
 
-#tansforming sales data
 
 @dlt.view(
-    name='sales_enrich_view'
+    name = 'products_enrich_view'
 )
 
-def stg_sales_transform():    # functions and dlt name same or different because it wont impact
-    df = spark.readStream.table("stg_sales")
-    df = df.withColumn("total_amount",col("quantity") * col("amount"))  
+def products_enrich_view():
+    df = spark.readStream.table("stg_products")
+    df = df.withColumn("price",col('price').cast('integer'))
     return df
 
-
 # Create destination silver table
+
 dlt.create_streaming_table(
-    name='sales_enrich',
-    comment='Enriched sales data'
+    name='products_enrich'
 )
 
 dlt.create_auto_cdc_flow(
-    target = "sales_enrich",
-    source = "sales_enrich_view",
-    keys = ["sales_id"],
-    sequence_by = "sale_timestamp",
+    target='products_enrich',
+    source='products_enrich_view',
+    keys = ["product_id"],
+    sequence_by = "last_updated",
     # ignore_null_updates = <bool>,
     # apply_as_deletes = None,
     # apply_as_truncates = None,
@@ -35,11 +34,5 @@ dlt.create_auto_cdc_flow(
     # name = None,
     # once = <bool>
 )
-
-
-
-
-
-
 
 
