@@ -3,16 +3,16 @@ import dlt
 
 # Create Empty streaming table
 dlt.create_streaming_table(
-    name='dim_products'
+    name='dim_customers'
 )
 
 
 # AUTO CDC FLOW
 
 dlt.create_auto_cdc_flow(
-    target='dim_products',
-    source='products_enrich_view',
-    keys = ["product_id"],
+    target='dim_customers',
+    source='customers_enrich_view',
+    keys = ["customer_id"],
     sequence_by = "last_updated",
     apply_as_deletes = None,
     apply_as_truncates = None,
