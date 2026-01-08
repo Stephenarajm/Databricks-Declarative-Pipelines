@@ -1,5 +1,6 @@
 import dlt
 
+from pyspark.sql.functions import sum
 
 # Creating a Materialized Nusiness view
 
@@ -18,6 +19,8 @@ def business_sales():
         .join(df_dim_products, df_fact.product_id == df_dim_products.product_id, "inner")
     
     df_prun = df_join.select("region","category","total_amount")
+
+    df_agg = df_prun.groupBy("region","category").agg(sum("total_amount").alias("total_revenue"))
 
     return df_prun
 
