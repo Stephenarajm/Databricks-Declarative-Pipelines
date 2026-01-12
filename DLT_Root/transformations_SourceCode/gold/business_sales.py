@@ -4,7 +4,7 @@ from pyspark.sql.functions import sum
 
 # Creating a Materialized Nusiness view
 
-@dlt.create_table(
+@dlt.table(
     name='business_sales'
 )
 
@@ -22,7 +22,7 @@ def business_sales():
 
     df_agg = df_prun.groupBy("region","category").agg(sum("total_amount").alias("total_revenue"))
 
-    return df_prun
+    return df_agg
 
 
 

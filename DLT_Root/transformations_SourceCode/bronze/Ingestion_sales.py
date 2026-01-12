@@ -19,15 +19,15 @@ dlt.create_streaming_table(
 @dlt.append_flow(target='stg_sales')
 
 def east_sales():
-    df = spark.read.table('dbtstev.source.sales_east')
+    df = spark.readStream.table('dbtstev.source.sales_east')
     return df
 
 
-# --Creating west sales flow
+# Creating west sales flow
 
 @dlt.append_flow(target='stg_sales')
 
 def west_sales():
-    df = spark.read.table('dbtstev.source.sales_west')
+    df = spark.readStream.table('dbtstev.source.sales_west')
     return df
 
